@@ -9,6 +9,7 @@ import {getLoginUserUsingGet} from "@/services/qiapi-backend/userController";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
+const logo = 'Qi-API-logo.png';
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -32,6 +33,7 @@ export async function getInitialState(): Promise<InitialState> {
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
+    logo : logo,
     layout: "top",
     rightContentRender: () => <RightContent />,
     waterMarkProps: {

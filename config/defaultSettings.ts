@@ -18,7 +18,7 @@ const Settings: LayoutSettings & {
   "splitMenus": false,
   pwa: false,
   "siderMenuType": "sub",
-  logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+  logo: '/qi-api-logo.svg',
   iconfontUrl: '',
 };
 

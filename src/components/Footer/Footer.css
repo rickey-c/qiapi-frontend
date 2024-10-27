@@ -1,0 +1,30 @@
+.footer {
+  background-color: #f0f2f5; /* 背景颜色 */
+  color: #333; /* 字体颜色 */
+  padding: 20px; /* 内边距 */
+  display: flex; /* 使用Flex布局 */
+  justify-content: center; /* 居中对齐 */
+  align-items: center; /* 垂直居中 */
+  flex-direction: column; /* 纵向排列 */
+}
+
+.footer-content {
+  text-align: center; /* 文本居中 */
+}
+
+.footer a {
+  color: #007bff; /* 链接颜色 */
+  text-decoration: none; /* 去掉下划线 */
+}
+
+.footer a:hover {
+  text-decoration: underline; /* 悬停时下划线 */
+}
+
+.footer::before {
+  content: '';
+  display: block;
+  height: 1px; /* 分隔线高度 */
+  background: #eaeaea; /* 分隔线颜色 */
+  margin-bottom: 10px; /* 分隔线与内容间距 */
+}

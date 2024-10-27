@@ -5,6 +5,7 @@ import proxy from './proxy';
 import routes from './routes';
 const { REACT_APP_ENV } = process.env;
 export default defineConfig({
+  favicons:['/R.png'],
   title:'Qi-API 接口平台',
   // 针对路由输出每个.html文件,不然打包布置会出问题
   // exportStatic: {},
@@ -38,7 +39,7 @@ export default defineConfig({
   theme: {
     // 如果不想要 configProvide 动态设置主题需要把这个设置为 default
     // 只有设置为 variable， 才能使用 configProvide 动态设置主色调
-    'root-entry-name': 'default',
+    'root-entry-name': 'variable',
   },
   /**
    * @name moment 的国际化配置
