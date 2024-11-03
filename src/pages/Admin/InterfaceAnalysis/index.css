@@ -1,0 +1,13 @@
+.chartContainer {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .chartContainer {
+    padding: 8px;
+  }
+}

@@ -1,25 +1,25 @@
 import { PageContainer } from '@ant-design/pro-components';
 import React, { useEffect, useState } from 'react';
-import {Button, Card, Descriptions, Form, message, Input, Divider} from 'antd';
+import { Button, Card, Descriptions, Form, message, Input, Divider, Row, Col } from 'antd';
 import {
   getInterfaceInfoByIdUsingGet,
   getRandomEncouragementUsingGet,
   getUserNameByPostUsingPost,
 } from '@/services/qiapi-backend/interfaceInfoController';
 import { useParams } from '@@/exports';
+import styles from './index.css';
 
 /**
  * 主页
  * @constructor
  */
 const Index: React.FC = () => {
-  const [,setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [data, setData] = useState<API.InterfaceInfo>();
   const [invokeRes, setInvokeRes] = useState<any>();
   const [invokeLoading, setInvokeLoading] = useState(false);
 
   // 获取接口信息的url
-
   const params = useParams();
 
   const loadData = async () => {
@@ -39,11 +39,9 @@ const Index: React.FC = () => {
     setLoading(false);
   };
 
-
   useEffect(() => {
     loadData();
   }, []);
-
 
   // 处理请求的函数，根据请求方法和URL动态执行请求
   const handleRequest = async (method: string, requestUrl: string, values: any) => {
@@ -75,7 +73,7 @@ const Index: React.FC = () => {
     return response;
   };
 
-// 表单提交处理函数
+  // 表单提交处理函数
   const onFinish = async (values: any) => {
     if (!data || !data.url || !data.method) {
       message.error('接口URL或请求方法未获取');
@@ -98,11 +96,9 @@ const Index: React.FC = () => {
     }
   };
 
-
-
   return (
     <PageContainer title="查看接口文档">
-      <Card>
+      <Card className={styles.card}>
         {data ? (
           <Descriptions title={data.name} column={1}>
             <Descriptions.Item label="接口状态">{data.status ? '开启' : '关闭'}</Descriptions.Item>
@@ -120,20 +116,20 @@ const Index: React.FC = () => {
         )}
       </Card>
       <Divider />
-      <Card title="在线测试">
+      <Card title="在线测试" className={styles.card}>
         <Form name="invoke" layout="vertical" onFinish={onFinish}>
           <Form.Item label="请求参数" name="userRequestParams">
             <Input.TextArea />
           </Form.Item>
           <Form.Item wrapperCol={{ span: 16 }}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={invokeLoading}>
               调用
             </Button>
           </Form.Item>
         </Form>
       </Card>
       <Divider />
-      <Card title="返回结果" loading={invokeLoading}>
+      <Card title="返回结果" className={styles.card}>
         {invokeRes}
       </Card>
     </PageContainer>

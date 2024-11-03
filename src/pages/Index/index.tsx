@@ -1,7 +1,8 @@
 import { PageContainer } from '@ant-design/pro-components';
 import React, { useEffect, useState } from 'react';
-import { List, message } from 'antd';
+import { List, message, Card, Row, Col } from 'antd';
 import { listInterfaceInfoByPageUsingGet } from '@/services/qiapi-backend/interfaceInfoController';
+import styles from './index.css';
 
 /**
  * 主页
@@ -35,29 +36,28 @@ const Index: React.FC = () => {
   return (
     <PageContainer title="在线接口开放平台">
       <List
-        className="my-list"
+        className={styles.list}
         loading={loading}
-        itemLayout="horizontal"
+        grid={{ gutter: 16, column: 3 }}
         dataSource={list}
         renderItem={(item) => {
           const apiLink = `/interface_info/${item.id}`;
           return (
-            <List.Item actions={[<a key={item.id} href={apiLink}>查看</a>]}>
-              <List.Item.Meta
-                title={<a href={apiLink}>{item.name}</a>}
-                description={item.description}
-              />
+            <List.Item>
+              <Card className={styles.card} actions={[<a key={item.id} href={apiLink}>查看</a>]}>
+                <Card.Meta
+                  title={<a href={apiLink}>{item.name}</a>}
+                  description={item.description}
+                />
+              </Card>
             </List.Item>
           );
         }}
         pagination={{
-          // eslint-disable-next-line @typescript-eslint/no-shadow
-          showTotal(total: number) {
-            return '总数：' + total;
-          },
+          showTotal: (total) => `总数：${total}`,
           pageSize: 5,
           total,
-          onChange(page, pageSize) {
+          onChange: (page, pageSize) => {
             loadData(page, pageSize);
           },
         }}

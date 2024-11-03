@@ -1,38 +1,30 @@
-import { GithubOutlined } from '@ant-design/icons';
-import { DefaultFooter } from '@ant-design/pro-components';
-import '@umijs/max';
 import React from 'react';
+import { DefaultFooter } from '@ant-design/pro-layout';
+import { GithubOutlined } from '@ant-design/icons';
 
 const Footer: React.FC = () => {
-  const defaultMessage = `Rickey出品   <a href="https://beian.miit.gov.cn/?spm=a2c4g.11186623.0.0.47bb3367VeAeRf#/Integrated/index" target="_blank" rel="noopener noreferrer">闽ICP备2024074555号</a>`;
-
+  const defaultMessage = '闽ICP备2024074555号';
   const currentYear = new Date().getFullYear();
   return (
     <DefaultFooter
       style={{
         background: 'none',
       }}
-      copyright={
-        <span dangerouslySetInnerHTML={{ __html: `${currentYear} ${defaultMessage}` }} />
-      }
+      copyright={`${currentYear} ${defaultMessage}`}
       links={[
         {
           key: 'Rickey',
+          // eslint-disable-next-line react/no-unescaped-entities
           title: <span className="no-hover">Rickey's Github </span>,
           blankTarget: true,
+          href: 'https://github.com/rickey-c'
         },
         {
           key: 'github',
           title: <GithubOutlined />,
-          href: 'https://github.com/ant-design/ant-design-pro',
+          href: 'https://github.com/rickey-c',
           blankTarget: true,
         },
-        // {
-        //   key: 'Rickey接口',
-        //   title: 'Rickey接口',
-        //   href: 'https://ant.design',
-        //   blankTarget: true,
-        // },
       ]}
     />
   );

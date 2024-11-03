@@ -1,12 +1,13 @@
 // https://umijs.org/config/
-import { defineConfig } from '@umijs/max';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
+import { defineConfig } from 'umi';
 import routes from './routes';
-const { REACT_APP_ENV } = process.env;
+import Settings from './defaultSettings';
+const REACT_APP_ENV = process.env.REACT_APP_ENV as 'dev' | 'test' | 'pre' | undefined;
 export default defineConfig({
-  favicons:['/R.png'],
-  title:'Qi-API 接口平台',
+  favicons: ['/R.png'],
+  title: 'Qi-API 接口平台',
   // 针对路由输出每个.html文件,不然打包布置会出问题
   // exportStatic: {},
   /**
@@ -39,7 +40,7 @@ export default defineConfig({
   theme: {
     // 如果不想要 configProvide 动态设置主题需要把这个设置为 default
     // 只有设置为 variable， 才能使用 configProvide 动态设置主色调
-    'root-entry-name': 'variable',
+    'root-entry-name': 'default',
   },
   /**
    * @name moment 的国际化配置
@@ -54,7 +55,7 @@ export default defineConfig({
    * @doc 代理介绍 https://umijs.org/docs/guides/proxy
    * @doc 代理配置 https://umijs.org/docs/api/config#proxy
    */
-  proxy: proxy[REACT_APP_ENV || 'dev'],
+  proxy: proxy[REACT_APP_ENV ?? 'dev'],
   /**
    * @name 快速热更新配置
    * @description 一个不错的热更新组件，更新时可以保留 state
@@ -76,10 +77,7 @@ export default defineConfig({
    * @name layout 插件
    * @doc https://umijs.org/docs/max/layout-menu
    */
-  layout: {
-    locale: true,
-    ...defaultSettings,
-  },
+  layout: Settings,
   /**
    * @name antd 插件
    * @description 内置了 babel import 插件
