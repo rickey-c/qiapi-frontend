@@ -2,34 +2,39 @@ import { GithubOutlined } from '@ant-design/icons';
 import { DefaultFooter } from '@ant-design/pro-components';
 import '@umijs/max';
 import React from 'react';
-import './Footer.css'; // 引入CSS文件
 
 const Footer: React.FC = () => {
-  const defaultMessage = `Rickey出品   <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">闽ICP备2024074555号</a>`;
-  const currentYear = new Date().getFullYear();
+  const defaultMessage = `Rickey出品   <a href="https://beian.miit.gov.cn/?spm=a2c4g.11186623.0.0.47bb3367VeAeRf#/Integrated/index" target="_blank" rel="noopener noreferrer">闽ICP备2024074555号</a>`;
 
+  const currentYear = new Date().getFullYear();
   return (
-    <div className="footer">
-      <DefaultFooter
-        className="footer-content"
-        copyright={
-          <span dangerouslySetInnerHTML={{ __html: `${currentYear} ${defaultMessage}` }} />
-        }
-        links={[
-          {
-            key: 'Rickey',
-            title: <span className="no-hover">Rickey's Github </span>,
-            blankTarget: true,
-          },
-          {
-            key: 'github',
-            title: <GithubOutlined />,
-            href: 'https://github.com/ant-design/ant-design-pro',
-            blankTarget: true,
-          },
-        ]}
-      />
-    </div>
+    <DefaultFooter
+      style={{
+        background: 'none',
+      }}
+      copyright={
+        <span dangerouslySetInnerHTML={{ __html: `${currentYear} ${defaultMessage}` }} />
+      }
+      links={[
+        {
+          key: 'Rickey',
+          title: <span className="no-hover">Rickey's Github </span>,
+          blankTarget: true,
+        },
+        {
+          key: 'github',
+          title: <GithubOutlined />,
+          href: 'https://github.com/ant-design/ant-design-pro',
+          blankTarget: true,
+        },
+        // {
+        //   key: 'Rickey接口',
+        //   title: 'Rickey接口',
+        //   href: 'https://ant.design',
+        //   blankTarget: true,
+        // },
+      ]}
+    />
   );
 };
 

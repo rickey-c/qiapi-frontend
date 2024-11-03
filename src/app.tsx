@@ -9,7 +9,7 @@ import {getLoginUserUsingGet} from "@/services/qiapi-backend/userController";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
-const logo = 'Qi-API-logo.png';
+const logo = '/qi-api-logo.svg';
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state

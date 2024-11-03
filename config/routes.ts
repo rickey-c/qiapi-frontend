@@ -16,7 +16,5 @@ export default [
       { name: '接口分析', icon: 'analysis', path: '/admin/interface_analysis', component: './Admin/InterfaceAnalysis' },
     ],
   },
-
-  // { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },
 ];
