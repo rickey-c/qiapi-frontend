@@ -3,11 +3,18 @@ export default [
   { path: '/', name: '主页', icon: 'smile', component: './Index' },
   // 接口信息路由 
   { path: '/interface_info/:id', name: '查看接口', icon: 'smile', component: './InterfaceInfo', hideInMenu: true },
+  { path: '/userInfo', name: '个人信息', icon: 'user', component: './User/Info'},
   // 登录路由
   {
     path: '/user',
     layout: false,
     routes: [{ name: '登录', path: '/user/login', component: './User/Login' }],
+  },
+  // 注册路由
+  {
+    path: '/user',
+    layout: false,
+    routes: [{ name: '注册', path: '/user/register', component: './User/Register' }],
   },
   // 充值路由
   {

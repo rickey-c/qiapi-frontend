@@ -17,7 +17,6 @@ import {
 import { history, useModel } from '@umijs/max';
 import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
-import { flushSync } from 'react-dom';
 import styles from './index.less';
 import { userLoginUsingPost } from '@/services/qiapi-backend/userController';
 
@@ -35,6 +34,7 @@ const LoginMessage: React.FC<{
     />
   );
 };
+
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
@@ -47,7 +47,7 @@ const Login: React.FC = () => {
       if (res.data) {
         const urlParams = new URL(window.location.href).searchParams;
         await setInitialState({
-          loginUser: res.data
+          loginUser: res.data,
         });
         history.push(urlParams.get('redirect') || '/');
         return;
@@ -73,8 +73,16 @@ const Login: React.FC = () => {
           actions={[
             '其他登录方式 :',
             <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
-            <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
-            <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
+            
+            <a
+              key="register"
+              onClick={() => {
+                history.push('/user/register');
+              }}
+              style={{ float: "right" }}
+            >
+              没有账号？现在注册
+            </a>,
           ]}
           onFinish={async (values) => {
             await handleSubmit(values as API.UserLoginRequest);
@@ -209,4 +217,5 @@ const Login: React.FC = () => {
     </div>
   );
 };
+
 export default Login;
