@@ -11,7 +11,7 @@ import styles from './index.css';
  */
 const InterfaceAnalysis: React.FC = () => {
 
-  const [data, setData] = useState<API.InterfaceInfoVO[]>([]);
+  const [data, setData] = useState<API.InterfaceInfo[]>([]);
 
   useEffect(() => {
     try {
@@ -28,7 +28,7 @@ const InterfaceAnalysis: React.FC = () => {
   // 映射：{ value: 1048, name: 'Search Engine' },
   const chartData = data.map(item => {
     return {
-      value: item.totalNum,
+      value: item.invokedCount,
       name: item.name,
     };
   });
