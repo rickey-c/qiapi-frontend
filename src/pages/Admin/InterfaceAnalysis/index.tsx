@@ -1,9 +1,8 @@
 import { PageContainer } from '@ant-design/pro-components';
 import '@umijs/max';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import ReactECharts from 'echarts-for-react';
-import { listTopInvokeInterfaceInfoUsingGet } from "@/services/qiapi-backend/analysisController";
-import styles from './index.css';
+import {listTopInvokeInterfaceInfoUsingGet} from "@/services/qiapi-backend/analysisController";
 
 /**
  * 接口分析
@@ -21,17 +20,18 @@ const InterfaceAnalysis: React.FC = () => {
         }
       })
     } catch (e: any) {
-      message.error('请求失败，' + e.message);
+
     }
-  }, []);
+    // todo 从远程获取数据
+  }, [])
 
   // 映射：{ value: 1048, name: 'Search Engine' },
   const chartData = data.map(item => {
     return {
       value: item.totalNum,
       name: item.name,
-    };
-  });
+    }
+  })
 
   const option = {
     title: {
@@ -64,11 +64,8 @@ const InterfaceAnalysis: React.FC = () => {
 
   return (
     <PageContainer>
-      <div className={styles.chartContainer}>
-        <ReactECharts option={option} style={{ height: '400px', width: '100%' }} />
-      </div>
+      <ReactECharts option={option} />
     </PageContainer>
   );
 };
-
 export default InterfaceAnalysis;
