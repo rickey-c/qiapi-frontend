@@ -7,6 +7,7 @@ import { history, Link } from '@umijs/max';
 import { requestConfig } from './requestConfig';
 import {getLoginUserUsingGet} from "@/services/qiapi-backend/userController";
 
+
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 const logo = '/qi-api-logo.svg';

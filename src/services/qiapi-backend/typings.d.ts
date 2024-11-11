@@ -23,6 +23,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseListOrder = {
+    code?: number;
+    data?: Order[];
+    message?: string;
+  };
+
   type BaseResponseListUserInterfaceInfo = {
     code?: number;
     data?: UserInterfaceInfo[];
@@ -47,9 +53,21 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseOrder = {
+    code?: number;
+    data?: Order;
+    message?: string;
+  };
+
   type BaseResponsePageInterfaceInfo = {
     code?: number;
     data?: PageInterfaceInfo;
+    message?: string;
+  };
+
+  type BaseResponsePageOrder = {
+    code?: number;
+    data?: PageOrder;
     message?: string;
   };
 
@@ -92,6 +110,11 @@ declare namespace API {
     id?: number;
   };
 
+  type getOrderByIdUsingGETParams = {
+    /** id */
+    id?: number;
+  };
+
   type getUserByIdUsingGETParams = {
     /** id */
     id?: number;
@@ -107,6 +130,7 @@ declare namespace API {
   };
 
   type InterfaceInfo = {
+    costPerCall?: number;
     createTime?: string;
     description?: string;
     id?: number;
@@ -123,6 +147,7 @@ declare namespace API {
   };
 
   type InterfaceInfoAddRequest = {
+    costPerCall?: number;
     description?: string;
     method?: string;
     name?: string;
@@ -138,6 +163,7 @@ declare namespace API {
   };
 
   type InterfaceInfoUpdateRequest = {
+    costPerCall?: number;
     description?: string;
     id?: number;
     method?: string;
@@ -150,6 +176,7 @@ declare namespace API {
   };
 
   type InterfaceInfoVO = {
+    costPerCall?: number;
     createTime?: string;
     description?: string;
     id?: number;
@@ -195,6 +222,32 @@ declare namespace API {
     sortOrder?: string;
     status?: number;
     url?: string;
+    userId?: number;
+  };
+
+  type listOrderByPageUsingGETParams = {
+    current?: number;
+    id?: number;
+    interfaceId?: number;
+    pageSize?: number;
+    quantity?: number;
+    sortField?: string;
+    sortOrder?: string;
+    status?: number;
+    totalPrice?: number;
+    userId?: number;
+  };
+
+  type listOrderUsingGETParams = {
+    current?: number;
+    id?: number;
+    interfaceId?: number;
+    pageSize?: number;
+    quantity?: number;
+    sortField?: string;
+    sortOrder?: string;
+    status?: number;
+    totalPrice?: number;
     userId?: number;
   };
 
@@ -332,9 +385,39 @@ declare namespace API {
     viewName?: string;
   };
 
+  type Order = {
+    createTime?: string;
+    id?: number;
+    interfaceId?: number;
+    isDeleted?: number;
+    quantity?: number;
+    status?: number;
+    totalPrice?: number;
+    updateTime?: string;
+    userId?: number;
+  };
+
+  type OrderAddRequest = {
+    id?: number;
+    interfaceId?: number;
+    quantity?: number;
+    status?: number;
+    totalPrice?: number;
+    userId?: number;
+  };
+
   type OrderItem = {
     asc?: boolean;
     column?: string;
+  };
+
+  type OrderUpdateRequest = {
+    id?: number;
+    interfaceId?: number;
+    quantity?: number;
+    status?: number;
+    totalPrice?: number;
+    userId?: number;
   };
 
   type PageInterfaceInfo = {
@@ -345,6 +428,19 @@ declare namespace API {
     orders?: OrderItem[];
     pages?: number;
     records?: InterfaceInfo[];
+    searchCount?: boolean;
+    size?: number;
+    total?: number;
+  };
+
+  type PageOrder = {
+    countId?: string;
+    current?: number;
+    maxLimit?: number;
+    optimizeCountSql?: boolean;
+    orders?: OrderItem[];
+    pages?: number;
+    records?: Order[];
     searchCount?: boolean;
     size?: number;
     total?: number;

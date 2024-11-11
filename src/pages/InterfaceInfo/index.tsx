@@ -1,11 +1,13 @@
 import { PageContainer } from '@ant-design/pro-components';
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Descriptions, Form, message, Input, Divider, Row, Col } from 'antd';
+import { Button, Card, Descriptions, Form, message, Input, Divider, Modal, InputNumber } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import {
   getInterfaceInfoByIdUsingGet,
   getRandomEncouragementUsingGet,
   getUserNameByPostUsingPost,
 } from '@/services/qiapi-backend/interfaceInfoController';
+import { addOrderUsingPost } from '@/services/qiapi-backend/orderController';
 import { useParams } from '@@/exports';
 import styles from './index.css';
 
@@ -14,10 +16,14 @@ import styles from './index.css';
  * @constructor
  */
 const Index: React.FC = () => {
+  const navigate = useNavigate();
   const [, setLoading] = useState(false);
   const [data, setData] = useState<API.InterfaceInfo>();
   const [invokeRes, setInvokeRes] = useState<any>();
   const [invokeLoading, setInvokeLoading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [totalCost, setTotalCost] = useState<number>(0); // 添加 totalCost 状态
+  const [orderId, setOrderId] = useState<number | null>(null); // 添加 orderId 状态
 
   // 获取接口信息的url
   const params = useParams();
@@ -96,11 +102,60 @@ const Index: React.FC = () => {
     }
   };
 
+  // 处理购买按钮点击事件
+  const handlePurchase = () => {
+    setIsModalVisible(true);
+  };
+
+  // 处理弹窗确认按钮点击事件
+  const handleOk = async (values: { quantity: number }) => {
+    if (!data) return;
+    try {
+      const totalPrice = values.quantity * (data.costPerCall || 0);
+      const res = await addOrderUsingPost({
+        interfaceId: data.id,
+        quantity: values.quantity,
+        totalPrice: totalPrice, // 添加总价格
+      });
+      if (res.data) {
+        setOrderId(res.data); // 保存订单ID
+        message.success('订单创建成功');
+        setIsModalVisible(false);
+        // 调用第三方支付接口
+        callThirdPartyPayment(res.data, totalPrice);
+      } else {
+        message.error('订单创建失败');
+      }
+    } catch (error: any) {
+      message.error('请求失败：' + (error.message || '未知错误'));
+    }
+  };
+
+  // 调用第三方支付接口
+  const callThirdPartyPayment = (orderId: number, totalPrice: number) => {
+    // 这里调用第三方支付接口
+    console.log(`调用第三方支付接口，订单ID: ${orderId}, 总金额: ${totalPrice}`);
+    // 示例代码，可以根据实际情况进行修改
+    // thirdPartyPaymentApi.pay({ orderId, totalPrice });
+  };
+
+  // 处理弹窗取消按钮点击事件
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  // 处理购买次数变化事件
+  const handleQuantityChange = (value: number | null) => {
+    if (value !== null && data && data.costPerCall) {
+      setTotalCost(value * data.costPerCall);
+    }
+  };
+
   return (
     <PageContainer title="查看接口文档">
       <Card className={styles.card}>
         {data ? (
-          <Descriptions title={data.name} column={1}>
+          <Descriptions title={data.name} column={1} extra={<Button type="primary" onClick={handlePurchase}>购买接口</Button>}>
             <Descriptions.Item label="接口状态">{data.status ? '开启' : '关闭'}</Descriptions.Item>
             <Descriptions.Item label="描述">{data.description}</Descriptions.Item>
             <Descriptions.Item label="请求地址">{data.url}</Descriptions.Item>
@@ -110,6 +165,7 @@ const Index: React.FC = () => {
             <Descriptions.Item label="响应头">{data.responseHeader}</Descriptions.Item>
             <Descriptions.Item label="创建时间">{data.createTime}</Descriptions.Item>
             <Descriptions.Item label="更新时间">{data.updateTime}</Descriptions.Item>
+            <Descriptions.Item label="每次调用费用">{data.costPerCall}</Descriptions.Item>
           </Descriptions>
         ) : (
           <>接口不存在</>
@@ -132,6 +188,41 @@ const Index: React.FC = () => {
       <Card title="返回结果" className={styles.card}>
         {invokeRes}
       </Card>
+      <Modal
+        title="购买接口"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <Descriptions column={1}>
+          <Descriptions.Item label="接口名称">{data?.name}</Descriptions.Item>
+          <Descriptions.Item label="接口状态">{data?.status ? '开启' : '关闭'}</Descriptions.Item>
+          <Descriptions.Item label="每次调用费用">{data?.costPerCall}</Descriptions.Item>
+        </Descriptions>
+        <Form name="purchase" onFinish={handleOk} layout="vertical">
+          <Form.Item
+            name="quantity"
+            label="购买次数"
+            rules={[{ required: true, message: '请输入购买次数' }]}
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+          >
+            <InputNumber min={1} onChange={handleQuantityChange} />
+          </Form.Item>
+          <Form.Item
+            label="总费用"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+          >
+            <Input value={totalCost} readOnly style={{ width: '150px' }} />
+          </Form.Item>
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+              确认购买
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </PageContainer>
   );
 };
