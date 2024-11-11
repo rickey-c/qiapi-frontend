@@ -17,6 +17,7 @@ declare namespace API {
     message?: string;
   };
 
+<<<<<<< HEAD
   type BaseResponseListInterfaceInfoVO = {
     code?: number;
     data?: InterfaceInfoVO[];
@@ -29,6 +30,8 @@ declare namespace API {
     message?: string;
   };
 
+=======
+>>>>>>> b2f25dfc2ea103361688432bdb07d6b54b1a952b
   type BaseResponseListUserInterfaceInfo = {
     code?: number;
     data?: UserInterfaceInfo[];
@@ -134,6 +137,7 @@ declare namespace API {
     createTime?: string;
     description?: string;
     id?: number;
+    invokedCount?: number;
     isDelete?: number;
     method?: string;
     name?: string;
@@ -175,6 +179,7 @@ declare namespace API {
     url?: string;
   };
 
+<<<<<<< HEAD
   type InterfaceInfoVO = {
     costPerCall?: number;
     createTime?: string;
@@ -193,6 +198,8 @@ declare namespace API {
     userId?: number;
   };
 
+=======
+>>>>>>> b2f25dfc2ea103361688432bdb07d6b54b1a952b
   type listInterfaceInfoByPageUsingGETParams = {
     current?: number;
     description?: string;
@@ -478,6 +485,7 @@ declare namespace API {
     gender?: number;
     id?: number;
     isDelete?: number;
+    remainingCalls?: number;
     secretKey?: string;
     updateTime?: string;
     userAccount?: string;
