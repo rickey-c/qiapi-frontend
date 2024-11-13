@@ -109,6 +109,11 @@ export default defineConfig({
       schemaPath: 'http://localhost:7529/api/v3/api-docs',
       projectName: 'qiapi-backend',
     },
+    {
+      requestLibPath: "import { request } from '@umijs/max'",
+      schemaPath: 'http://localhost:7530/api/v3/api-docs',
+      projectName: 'qiapi-order',
+    },
   ],
   mfsu: {
     exclude: ['@playwright/test'],

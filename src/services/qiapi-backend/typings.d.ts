@@ -17,21 +17,12 @@ declare namespace API {
     message?: string;
   };
 
-<<<<<<< HEAD
   type BaseResponseListInterfaceInfoVO = {
     code?: number;
     data?: InterfaceInfoVO[];
     message?: string;
   };
 
-  type BaseResponseListOrder = {
-    code?: number;
-    data?: Order[];
-    message?: string;
-  };
-
-=======
->>>>>>> b2f25dfc2ea103361688432bdb07d6b54b1a952b
   type BaseResponseListUserInterfaceInfo = {
     code?: number;
     data?: UserInterfaceInfo[];
@@ -56,21 +47,9 @@ declare namespace API {
     message?: string;
   };
 
-  type BaseResponseOrder = {
-    code?: number;
-    data?: Order;
-    message?: string;
-  };
-
   type BaseResponsePageInterfaceInfo = {
     code?: number;
     data?: PageInterfaceInfo;
-    message?: string;
-  };
-
-  type BaseResponsePageOrder = {
-    code?: number;
-    data?: PageOrder;
     message?: string;
   };
 
@@ -113,11 +92,6 @@ declare namespace API {
     id?: number;
   };
 
-  type getOrderByIdUsingGETParams = {
-    /** id */
-    id?: number;
-  };
-
   type getUserByIdUsingGETParams = {
     /** id */
     id?: number;
@@ -137,7 +111,6 @@ declare namespace API {
     createTime?: string;
     description?: string;
     id?: number;
-    invokedCount?: number;
     isDelete?: number;
     method?: string;
     name?: string;
@@ -179,7 +152,6 @@ declare namespace API {
     url?: string;
   };
 
-<<<<<<< HEAD
   type InterfaceInfoVO = {
     costPerCall?: number;
     createTime?: string;
@@ -198,8 +170,6 @@ declare namespace API {
     userId?: number;
   };
 
-=======
->>>>>>> b2f25dfc2ea103361688432bdb07d6b54b1a952b
   type listInterfaceInfoByPageUsingGETParams = {
     current?: number;
     description?: string;
@@ -229,32 +199,6 @@ declare namespace API {
     sortOrder?: string;
     status?: number;
     url?: string;
-    userId?: number;
-  };
-
-  type listOrderByPageUsingGETParams = {
-    current?: number;
-    id?: number;
-    interfaceId?: number;
-    pageSize?: number;
-    quantity?: number;
-    sortField?: string;
-    sortOrder?: string;
-    status?: number;
-    totalPrice?: number;
-    userId?: number;
-  };
-
-  type listOrderUsingGETParams = {
-    current?: number;
-    id?: number;
-    interfaceId?: number;
-    pageSize?: number;
-    quantity?: number;
-    sortField?: string;
-    sortOrder?: string;
-    status?: number;
-    totalPrice?: number;
     userId?: number;
   };
 
@@ -392,39 +336,9 @@ declare namespace API {
     viewName?: string;
   };
 
-  type Order = {
-    createTime?: string;
-    id?: number;
-    interfaceId?: number;
-    isDeleted?: number;
-    quantity?: number;
-    status?: number;
-    totalPrice?: number;
-    updateTime?: string;
-    userId?: number;
-  };
-
-  type OrderAddRequest = {
-    id?: number;
-    interfaceId?: number;
-    quantity?: number;
-    status?: number;
-    totalPrice?: number;
-    userId?: number;
-  };
-
   type OrderItem = {
     asc?: boolean;
     column?: string;
-  };
-
-  type OrderUpdateRequest = {
-    id?: number;
-    interfaceId?: number;
-    quantity?: number;
-    status?: number;
-    totalPrice?: number;
-    userId?: number;
   };
 
   type PageInterfaceInfo = {
@@ -435,19 +349,6 @@ declare namespace API {
     orders?: OrderItem[];
     pages?: number;
     records?: InterfaceInfo[];
-    searchCount?: boolean;
-    size?: number;
-    total?: number;
-  };
-
-  type PageOrder = {
-    countId?: string;
-    current?: number;
-    maxLimit?: number;
-    optimizeCountSql?: boolean;
-    orders?: OrderItem[];
-    pages?: number;
-    records?: Order[];
     searchCount?: boolean;
     size?: number;
     total?: number;
@@ -485,7 +386,6 @@ declare namespace API {
     gender?: number;
     id?: number;
     isDelete?: number;
-    remainingCalls?: number;
     secretKey?: string;
     updateTime?: string;
     userAccount?: string;

@@ -1,10 +1,17 @@
 export default [
   // 主页路由 
-  { path: '/', name: '主页', icon: 'smile', component: './Index' },
+  { path: '/', name: '主页', icon: 'api', component: './Index' },
   // 接口信息路由 
   { path: '/interface_info/:id', name: '查看接口', icon: 'smile', component: './InterfaceInfo', hideInMenu: true },
   // 个人信息路由
   { path: '/userInfo', name: '个人信息', icon: 'user', component: './User/Info'},
+  // 订单路由
+  {
+    path: '/order',
+    name: '我的订单',
+    icon: 'profile', 
+    component: './Order',
+  },
   // 登录路由
   {
     path: '/user',
@@ -25,6 +32,7 @@ export default [
   //   component: './Pay', 
   //   hideInMenu: true
   // },
+  
   // 管理路由
   {
     path: '/admin',

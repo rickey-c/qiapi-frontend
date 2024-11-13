@@ -5,14 +5,12 @@
 import * as analysisController from './analysisController';
 import * as basicErrorController from './basicErrorController';
 import * as interfaceInfoController from './interfaceInfoController';
-import * as orderController from './orderController';
 import * as userController from './userController';
 import * as userInterfaceInfoController from './userInterfaceInfoController';
 export default {
   analysisController,
   basicErrorController,
   interfaceInfoController,
-  orderController,
   userController,
   userInterfaceInfoController,
 };

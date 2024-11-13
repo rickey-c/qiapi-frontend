@@ -7,7 +7,7 @@ import {
   getRandomEncouragementUsingGet,
   getUserNameByPostUsingPost,
 } from '@/services/qiapi-backend/interfaceInfoController';
-import { addOrderUsingPost } from '@/services/qiapi-backend/orderController';
+import { addOrderUsingPost } from '@/services/qiapi-order/orderController';
 import { useParams } from '@@/exports';
 import styles from './index.css';
 
@@ -132,6 +132,7 @@ const Index: React.FC = () => {
   };
 
   // 调用第三方支付接口
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const callThirdPartyPayment = (orderId: number, totalPrice: number) => {
     // 这里调用第三方支付接口
     console.log(`调用第三方支付接口，订单ID: ${orderId}, 总金额: ${totalPrice}`);
