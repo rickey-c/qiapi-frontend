@@ -77,6 +77,21 @@ export async function listOrderByPageUsingGet(
   });
 }
 
+/** payOrder POST /api/order/pay */
+export async function payOrderUsingPost(
+  body: API.OrderUpdateRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseboolean>('/api/order/pay', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** updateOrder POST /api/order/update */
 export async function updateOrderUsingPost(
   body: API.OrderUpdateRequest,

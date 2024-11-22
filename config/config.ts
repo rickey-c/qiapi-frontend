@@ -3,7 +3,6 @@ import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import { defineConfig } from 'umi';
 import routes from './routes';
-import Settings from './defaultSettings';
 const REACT_APP_ENV = process.env.REACT_APP_ENV as 'dev' | 'test' | 'pre' | undefined;
 export default defineConfig({
   favicons: ['/R.png'],
@@ -77,7 +76,7 @@ export default defineConfig({
    * @name layout 插件
    * @doc https://umijs.org/docs/max/layout-menu
    */
-  layout: Settings,
+  layout: defaultSettings,
   /**
    * @name antd 插件
    * @description 内置了 babel import 插件

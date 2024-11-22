@@ -16,20 +16,23 @@ const logo = '/qi-api-logo.svg';
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
 export async function getInitialState(): Promise<InitialState> {
-  // 当页面首次加载时，获取要全局保存的数据，比如用户登录信息
   const state: InitialState = {
     loginUser: undefined,
-  }
+  };
   try {
+    // 获取登录用户信息
     const res = await getLoginUserUsingGet();
     if (res.data) {
       state.loginUser = res.data;
     }
+    console.log('getInitialState', state.loginUser);
   } catch (error) {
+    // 出现错误时跳转到登录页面
     history.push(loginPath);
   }
   return state;
 }
+
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {

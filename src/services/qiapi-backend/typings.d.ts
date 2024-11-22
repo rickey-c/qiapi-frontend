@@ -452,6 +452,7 @@ declare namespace API {
   };
 
   type UserVO = {
+    avatar: ReactNode;
     createTime?: string;
     gender?: number;
     id?: number;

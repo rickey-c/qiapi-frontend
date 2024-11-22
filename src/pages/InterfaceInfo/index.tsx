@@ -122,7 +122,7 @@ const Index: React.FC = () => {
         message.success('订单创建成功');
         setIsModalVisible(false);
         // 调用第三方支付接口
-        callThirdPartyPayment(res.data, totalPrice);
+        // callThirdPartyPayment(res.data, totalPrice);
       } else {
         message.error('订单创建失败');
       }

@@ -1,6 +1,6 @@
 export default [
   // 主页路由 
-  { path: '/', name: '主页', icon: 'api', component: './Index' },
+  { path: '/', name: '接口调用', icon: 'api', component: './Index' },
   // 接口信息路由 
   { path: '/interface_info/:id', name: '查看接口', icon: 'smile', component: './InterfaceInfo', hideInMenu: true },
   // 个人信息路由

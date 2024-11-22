@@ -31,15 +31,15 @@ interface InitialState {
 }
 
 
-createTime	string(date-time)
-description	string
-id	integer(int64)
-isDelete	integer(int32)
-method	string
-name	string
-requestHeader	string
-responseHeader	string
-status	integer(int32)
-updateTime	string(date-time)
-url	string
-userId	integer(int64)
+// createTime	string(date-time)
+// description	string
+// id	integer(int64)
+// isDelete	integer(int32)
+// method	string
+// name	string
+// requestHeader	string
+// responseHeader	string
+// status	integer(int32)
+// updateTime	string(date-time)
+// url	string
+// userId	integer(int64)
