@@ -111,11 +111,12 @@ const Index: React.FC = () => {
   const handleOk = async (values: { quantity: number }) => {
     if (!data) return;
     try {
-      const totalPrice = values.quantity * (data.costPerCall || 0);
+      // 计算总价格并保留两位小数
+      const totalPrice = parseFloat((values.quantity * (data.costPerCall || 0)).toFixed(2));
       const res = await addOrderUsingPost({
         interfaceId: data.id,
         quantity: values.quantity,
-        totalPrice: totalPrice, // 添加总价格
+        totalPrice, // 使用保留两位小数的总价格
       });
       if (res.data) {
         setOrderId(res.data); // 保存订单ID
@@ -130,6 +131,7 @@ const Index: React.FC = () => {
       message.error('请求失败：' + (error.message || '未知错误'));
     }
   };
+
 
   // 调用第三方支付接口
   // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -204,12 +206,32 @@ const Index: React.FC = () => {
           <Form.Item
             name="quantity"
             label="购买次数"
-            rules={[{ required: true, message: '请输入购买次数' }]}
+            rules={[
+              { required: true, message: '请输入购买次数' },
+              { type: 'number', min: 1, max: 10000, message: '购买次数必须为1到10000之间的数字' },
+            ]}
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
           >
-            <InputNumber min={1} onChange={handleQuantityChange} />
+            <InputNumber
+              min={1}
+              max={10000}
+              parser={(value) => {
+                const parsedValue = value?.replace(/[^\d]/g, '');
+                if (parsedValue === '') {
+                  return NaN;
+                }
+                const numberValue = Number(parsedValue);
+                if (isNaN(numberValue)) {
+                  return NaN;
+                }
+                return numberValue;
+              }} // 只保留数字
+              formatter={(value) => value ? String(value).replace(/[^\d]/g, '') : ''} // 显示为数字格式
+              onChange={handleQuantityChange}
+            />
           </Form.Item>
+
           <Form.Item
             label="总费用"
             labelCol={{ span: 8 }}
