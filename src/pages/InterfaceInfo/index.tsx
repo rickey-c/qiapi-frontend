@@ -8,6 +8,7 @@ import {
   getUserNameByPostUsingPost,
 } from '@/services/qiapi-backend/interfaceInfoController';
 import { addOrderUsingPost } from '@/services/qiapi-order/orderController';
+import { alipayUsingPost } from '@/services/qiapi-thirdParty/payController';
 import { useParams } from '@@/exports';
 import styles from './index.css';
 
@@ -79,6 +80,37 @@ const Index: React.FC = () => {
     return response;
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const callThirdPartyPayment = async (orderId: number, totalPrice: number) => {
+    try {
+      const paymentResponse = await alipayUsingPost({
+        outTradeNo: String(orderId), // 使用订单 ID 作为交易号
+        subject: data?.name || '测试接口', // 接口名称作为支付主题
+        totalAmount: totalPrice.toFixed(2), // 确保金额为两位小数
+        description: `购买${data?.name}接口的调用次数`, // 支付描述
+      });
+  
+      if (paymentResponse) {
+        message.success('支付发起成功，请完成支付！');
+        // 自动提交支付表单
+        const formContainer = document.createElement('div');
+        formContainer.innerHTML = paymentResponse.data; // 将支付宝返回的表单HTML放到div中
+        document.body.appendChild(formContainer);
+        const form = formContainer.querySelector('form');
+        if (form) {
+          form.submit();
+        } else {
+          message.error('支付表单生成失败');
+        }
+      } else {
+        message.error('支付失败，请稍后重试');
+      }
+    } catch (error: any) {
+      console.error('支付接口调用失败：', error);
+      message.error('支付接口调用失败：' + (error.message || '未知错误'));
+    }
+  };  
+
   // 表单提交处理函数
   const onFinish = async (values: any) => {
     if (!data || !data.url || !data.method) {
@@ -107,23 +139,23 @@ const Index: React.FC = () => {
     setIsModalVisible(true);
   };
 
-  // 处理弹窗确认按钮点击事件
   const handleOk = async (values: { quantity: number }) => {
     if (!data) return;
     try {
-      // 计算总价格并保留两位小数
       const totalPrice = parseFloat((values.quantity * (data.costPerCall || 0)).toFixed(2));
       const res = await addOrderUsingPost({
         interfaceId: data.id,
         quantity: values.quantity,
-        totalPrice, // 使用保留两位小数的总价格
+        totalPrice,
       });
+  
       if (res.data) {
         setOrderId(res.data); // 保存订单ID
         message.success('订单创建成功');
         setIsModalVisible(false);
+  
         // 调用第三方支付接口
-        // callThirdPartyPayment(res.data, totalPrice);
+        await callThirdPartyPayment(res.data, totalPrice);
       } else {
         message.error('订单创建失败');
       }
@@ -131,17 +163,7 @@ const Index: React.FC = () => {
       message.error('请求失败：' + (error.message || '未知错误'));
     }
   };
-
-
-  // 调用第三方支付接口
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const callThirdPartyPayment = (orderId: number, totalPrice: number) => {
-    // 这里调用第三方支付接口
-    console.log(`调用第三方支付接口，订单ID: ${orderId}, 总金额: ${totalPrice}`);
-    // 示例代码，可以根据实际情况进行修改
-    // thirdPartyPaymentApi.pay({ orderId, totalPrice });
-  };
-
+  
   // 处理弹窗取消按钮点击事件
   const handleCancel = () => {
     setIsModalVisible(false);

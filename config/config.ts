@@ -113,6 +113,11 @@ export default defineConfig({
       schemaPath: 'http://localhost:7530/api/v3/api-docs',
       projectName: 'qiapi-order',
     },
+    {
+      requestLibPath: "import { request } from '@umijs/max'",
+      schemaPath: 'http://localhost:7531/api/thirdParty/v3/api-docs',
+      projectName: 'qiapi-thirdParty',
+    },
   ],
   mfsu: {
     exclude: ['@playwright/test'],

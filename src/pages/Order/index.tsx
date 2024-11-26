@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form, Input, message, Pagination } from 'antd';
 import { listOrderByPageUsingGet, deleteOrderUsingPost, updateOrderUsingPost } from '@/services/qiapi-order/orderController';
+import { alipayUsingPost } from '@/services/qiapi-thirdParty/payController';
 
 const OrderPage: React.FC = () => {
   const [orders, setOrders] = useState<API.Order[]>([]);
@@ -12,7 +13,6 @@ const OrderPage: React.FC = () => {
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     fetchOrders(currentPage, pageSize);
   }, [currentPage, pageSize]);
 
@@ -74,6 +74,44 @@ const OrderPage: React.FC = () => {
     }
   };
 
+  const handlePay = async (order: API.Order) => {
+    try {
+      const totalPrice = order.totalPrice !== undefined ? order.totalPrice.toFixed(2) : '0.00';
+      const paymentResponse = await alipayUsingPost({
+        outTradeNo: String(order.id),
+        subject: '订单支付',
+        totalAmount: totalPrice,
+        description: `支付订单 ${order.id}`,
+      });
+
+      if (paymentResponse) {
+        message.success('支付发起成功，请完成支付！');
+        
+        // 创建支付表单并提交
+        const formContainer = document.createElement('div');
+        if (paymentResponse.data) {
+          formContainer.innerHTML = paymentResponse.data; // 将支付宝返回的表单HTML放到div中
+        } else {
+          message.error('支付表单生成失败');
+          return;
+        }
+        document.body.appendChild(formContainer); // 将该div加到页面
+
+        const form = formContainer.querySelector('form');
+        if (form) {
+          form.submit(); // 提交支付表单，发起支付
+        } else {
+          message.error('支付表单生成失败');
+        }
+      } else {
+        message.error('支付失败，请稍后重试');
+      }
+    } catch (error: any) {
+      console.error('支付接口调用失败：', error);
+      message.error('支付接口调用失败：' + (error.message || '未知错误'));
+    }
+  };
+
   const columns = [
     { title: '订单ID', dataIndex: 'id', key: 'id' },
     { title: '接口ID', dataIndex: 'interfaceId', key: 'interfaceId' },
@@ -84,6 +122,7 @@ const OrderPage: React.FC = () => {
       <>
         <Button type="link" onClick={() => handleEdit(record)}>编辑</Button>
         <Button type="link" danger onClick={() => record.id !== undefined && handleDelete(record.id)}>删除</Button>
+        {record.status === 0 && <Button type="link" onClick={() => handlePay(record)}>支付</Button>}
       </>
     ) },
   ];

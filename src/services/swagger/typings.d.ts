@@ -60,12 +60,12 @@ declare namespace API {
 
   type Order = {
     id?: number;
-    petId?: number;
+    userId?: number;
+    interfaceId?: number;
     quantity?: number;
-    shipDate?: string;
+    totalPrice?: number;
     /** Order Status */
-    status?: 'placed' | 'approved' | 'delivered';
-    complete?: boolean;
+    status?: 0 | 1 ;
   };
 
   type Pet = {
