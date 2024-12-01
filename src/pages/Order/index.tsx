@@ -143,6 +143,7 @@ const OrderPage: React.FC = () => {
         onChange={(page, size) => {
           setCurrentPage(page);
           setPageSize(size);
+          fetchOrders(page, size); // 确保分页控件更新时重新获取数据
         }}
       />
       <Modal

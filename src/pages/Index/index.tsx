@@ -1,4 +1,4 @@
-import { PageContainer } from '@ant-design/pro-components';
+import { PageContainer } from '@ant-design/pro-layout/es/components/PageContainer';
 import React, { useEffect, useState, useCallback } from 'react';
 import { List, message, Card } from 'antd';
 import { listInterfaceInfoByPageUsingGet } from '@/services/qiapi-backend/interfaceInfoController';
@@ -61,6 +61,7 @@ const Index: React.FC = () => {
           );
         }}
         pagination={{
+          // eslint-disable-next-line @typescript-eslint/no-shadow
           showTotal: (total) => `总数：${total}`,
           pageSize: 5,
           total,
