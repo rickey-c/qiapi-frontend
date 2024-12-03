@@ -47,6 +47,21 @@ export async function getInterfaceInfoByIdUsingGet(
   });
 }
 
+/** invokeInterfaceInfo POST /api/interfaceInfo/invoke */
+export async function invokeInterfaceInfoUsingPost(
+  body: API.InterfaceInfoInvokeRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseobject>('/api/interfaceInfo/invoke', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** listInterfaceInfo GET /api/interfaceInfo/list */
 export async function listInterfaceInfoUsingGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
@@ -77,21 +92,6 @@ export async function listInterfaceInfoByPageUsingGet(
   });
 }
 
-/** getUserNameByPost POST /api/interfaceInfo/name/user */
-export async function getUserNameByPostUsingPost(
-  body: API.InterfaceInfoInvokeRequest,
-  options?: { [key: string]: any },
-) {
-  return request<API.BaseResponseobject>('/api/interfaceInfo/name/user', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: body,
-    ...(options || {}),
-  });
-}
-
 /** offlineInterfaceInfo POST /api/interfaceInfo/offline */
 export async function offlineInterfaceInfoUsingPost(
   body: API.IdRequest,
@@ -118,14 +118,6 @@ export async function onlineInterfaceInfoUsingPost(
       'Content-Type': 'application/json',
     },
     data: body,
-    ...(options || {}),
-  });
-}
-
-/** getRandomEncouragement GET /api/interfaceInfo/random/encouragement */
-export async function getRandomEncouragementUsingGet(options?: { [key: string]: any }) {
-  return request<API.BaseResponseobject>('/api/interfaceInfo/random/encouragement', {
-    method: 'GET',
     ...(options || {}),
   });
 }

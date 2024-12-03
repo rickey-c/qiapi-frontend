@@ -4,8 +4,7 @@ import { Button, Card, Descriptions, Form, message, Input, Divider, Modal, Input
 import { useNavigate } from 'react-router-dom';
 import {
   getInterfaceInfoByIdUsingGet,
-  getRandomEncouragementUsingGet,
-  getUserNameByPostUsingPost,
+  invokeInterfaceInfoUsingPost,
 } from '@/services/qiapi-backend/interfaceInfoController';
 import { addOrderUsingPost } from '@/services/qiapi-order/orderController';
 import { alipayUsingPost } from '@/services/qiapi-thirdParty/payController';
@@ -50,34 +49,12 @@ const Index: React.FC = () => {
     loadData();
   }, []);
 
-  // 处理请求的函数，根据请求方法和URL动态执行请求
-  const handleRequest = async (method: string, requestUrl: string, values: any) => {
-    const requestMap: { [key: string]: Function } = {
-      // 处理 GET 请求
-      GET: async (url: string) => {
-        // 如果requestUrl是获取随机鼓励话语的接口
-        if (requestUrl.endsWith('/random/encouragement')) {
-          return await getRandomEncouragementUsingGet(); // 调用该接口，不传递参数
-        }
-        // 其他处理逻辑返回null
-        return null;
-      },
-      // 处理 POST 请求
-      POST: async (url: string) => {
-        // 如果requestUrl是获取用户名的接口
-        if (requestUrl.endsWith('/name/user')) {
-          return await getUserNameByPostUsingPost({
-            id: params.id, // 传递 ID 参数
-            ...values, // 传递其他请求参数
-          });
-        }
-        // 其他处理逻辑返回null
-        return null;
-      },
-    };
-    // 根据请求方法调用相应的请求函数
-    const response = await requestMap[method.toUpperCase()](requestUrl);
-    return response;
+  // 处理请求的函数，统一调用接口
+  const handleRequest = async (values: any) => {
+    return await invokeInterfaceInfoUsingPost({
+      id: params.id, // 传递 ID 参数
+      userRequestParams: values.userRequestParams, // 传递请求参数
+    });
   };
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -89,12 +66,12 @@ const Index: React.FC = () => {
         totalAmount: totalPrice.toFixed(2), // 确保金额为两位小数
         description: `购买${data?.name}接口的调用次数`, // 支付描述
       });
-  
+
       if (paymentResponse) {
         message.success('支付发起成功，请完成支付！');
         // 自动提交支付表单
         const formContainer = document.createElement('div');
-        formContainer.innerHTML = paymentResponse.data; // 将支付宝返回的表单HTML放到div中
+        formContainer.innerHTML = paymentResponse.data || ''; // 将支付宝返回的表单HTML放到div中，提供默认值
         document.body.appendChild(formContainer);
         const form = formContainer.querySelector('form');
         if (form) {
@@ -109,7 +86,7 @@ const Index: React.FC = () => {
       console.error('支付接口调用失败：', error);
       message.error('支付接口调用失败：' + (error.message || '未知错误'));
     }
-  };  
+  };
 
   // 表单提交处理函数
   const onFinish = async (values: any) => {
@@ -120,7 +97,7 @@ const Index: React.FC = () => {
 
     setInvokeLoading(true); // 设置加载状态为 true
     try {
-      const res = await handleRequest(data.method, data.url, values);
+      const res = await handleRequest(values);
       if (res) {
         setInvokeRes(res.data); // 设置返回结果
         message.success('请求成功'); // 提示请求成功
@@ -148,12 +125,12 @@ const Index: React.FC = () => {
         quantity: values.quantity,
         totalPrice,
       });
-  
+
       if (res.data) {
         setOrderId(res.data); // 保存订单ID
         message.success('订单创建成功');
         setIsModalVisible(false);
-  
+
         // 调用第三方支付接口
         await callThirdPartyPayment(res.data, totalPrice);
       } else {
@@ -163,7 +140,7 @@ const Index: React.FC = () => {
       message.error('请求失败：' + (error.message || '未知错误'));
     }
   };
-  
+
   // 处理弹窗取消按钮点击事件
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -189,6 +166,7 @@ const Index: React.FC = () => {
             <Descriptions.Item label="请求头">{data.requestHeader}</Descriptions.Item>
             <Descriptions.Item label="响应头">{data.responseHeader}</Descriptions.Item>
             <Descriptions.Item label="创建时间">{data.createTime}</Descriptions.Item>
+            <Descriptions.Item label="客户端SDK">{data.sdk}</Descriptions.Item>
             <Descriptions.Item label="更新时间">{data.updateTime}</Descriptions.Item>
             <Descriptions.Item label="每次调用费用">{data.costPerCall}</Descriptions.Item>
           </Descriptions>
