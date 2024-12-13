@@ -1,6 +1,6 @@
 import { PageContainer } from '@ant-design/pro-layout/es/components/PageContainer';
 import React, { useEffect, useState, useCallback } from 'react';
-import { List, message, Card } from 'antd';
+import { List, message, Card, Button } from 'antd';
 import { listInterfaceInfoByPageUsingGet } from '@/services/qiapi-backend/interfaceInfoController';
 import styles from './index.css';
 
@@ -18,7 +18,7 @@ const Index: React.FC = () => {
    * @param current 当前页码
    * @param pageSize 每页数据条数
    */
-  const loadData = useCallback(async (current = 1, pageSize = 5) => {
+  const loadData = useCallback(async (current = 1, pageSize = 6) => {
     setLoading(true);
     try {
       const res = await listInterfaceInfoByPageUsingGet({ current, pageSize });
@@ -36,6 +36,18 @@ const Index: React.FC = () => {
     loadData();
   }, [loadData]);
 
+  /**
+   * 下载 SDK
+   */
+  const downloadSdk = () => {
+    const link = document.createElement('a');
+    link.href = 'http://localhost:8090/api/interfaceInfo/sdk'; // 直接调用下载链接
+    link.setAttribute('download', 'qiapi-client-sdk-0.0.1.jar'); // 设置下载文件名
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode?.removeChild(link);
+  };
+
   return (
     <PageContainer title="在线接口开放平台">
       {/* 接口信息展示 */}
@@ -50,8 +62,7 @@ const Index: React.FC = () => {
             <List.Item>
               <Card
                 className={styles.card}
-                actions={[<a key={item.id} href={apiLink}>查看</a>]}
-              >
+                actions={[<a key={item.id} href={apiLink}>查看</a>]}>
                 <Card.Meta
                   title={<a href={apiLink}>{item.name}</a>}
                   description={item.description}
@@ -62,8 +73,15 @@ const Index: React.FC = () => {
         }}
         pagination={{
           // eslint-disable-next-line @typescript-eslint/no-shadow
-          showTotal: (total) => `总数：${total}`,
-          pageSize: 5,
+          showTotal: (total) => (
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Button type="primary" onClick={downloadSdk} style={{ marginRight: 800 }}>
+                下载 SDK
+              </Button>
+              <span>总数：{total}</span>
+            </div>
+          ),
+          pageSize: 6,
           total,
           onChange: (page, pageSize) => loadData(page, pageSize),
         }}

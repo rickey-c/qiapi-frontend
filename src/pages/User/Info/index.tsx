@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Descriptions, Spin, Form, Input, Button, message } from 'antd';
 import { history } from '@umijs/max';
-import { getLoginUserUsingGet, updateUserUsingPost } from '@/services/qiapi-backend/userController';
+import { getLoginUserUsingGet, updateUserUsingPost, getKeyUsingGet, genKeyUsingPost } from '@/services/qiapi-backend/userController';
 
 const UserInfo: React.FC = () => {
   const [user, setUser] = useState<API.UserVO | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [keys, setKeys] = useState<{ accessKey: string; secretKey: string } | null>(null);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -42,6 +43,37 @@ const UserInfo: React.FC = () => {
     } catch (error: any) {
       message.error('请求失败：' + (error.message || '未知错误'));
     } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchKeys = async () => {
+    setLoading(true);
+    try {
+      const response = await getKeyUsingGet();
+      if (response.data) {
+        setKeys(response.data);
+      } else {
+        message.error('获取密钥失败');
+      }
+    } catch (error: any) {
+      message.error('请求失败：' + (error.message || '未知错误'));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const requestNewKeys = async () => {
+    setLoading(true);
+    try {
+      const response = await genKeyUsingPost();
+      if(response.data) {
+        setKeys(response.data);
+      }
+      message.success('申请更换密钥成功');
+    } catch (error: any) {
+      message.error('请求失败：' + (error.message || '未知错误'));
+    }finally{
       setLoading(false);
     }
   };
@@ -93,6 +125,12 @@ const UserInfo: React.FC = () => {
               <Input.Password style={{ fontSize: '14px', padding: '0 4px', height: 'auto' }} />
             </Form.Item>
           </Descriptions.Item>
+          {keys && (
+            <>
+              <Descriptions.Item label="Access Key">{keys.accessKey}</Descriptions.Item>
+              <Descriptions.Item label="Secret Key">{keys.secretKey}</Descriptions.Item>
+            </>
+          )}
         </Descriptions>
         <Form.Item>
           <Button type="primary" htmlType="submit" loading={loading}>
@@ -100,6 +138,12 @@ const UserInfo: React.FC = () => {
           </Button>
         </Form.Item>
       </Form>
+      <Button type="default" onClick={fetchKeys} style={{ marginRight: 16 }}>
+        查看当前密钥
+      </Button>
+      <Button type="default" onClick={requestNewKeys}>
+        申请更换密钥
+      </Button>
     </Card>
   );
 };

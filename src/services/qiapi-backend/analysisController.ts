@@ -9,3 +9,11 @@ export async function listTopInvokeInterfaceInfoUsingGet(options?: { [key: strin
     ...(options || {}),
   });
 }
+
+/** testUpdateCache GET /api/analysis/updateCache */
+export async function testUpdateCacheUsingGet(options?: { [key: string]: any }) {
+  return request<API.BaseResponsestring>('/api/analysis/updateCache', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}

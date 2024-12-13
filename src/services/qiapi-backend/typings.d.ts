@@ -65,9 +65,21 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponsestring = {
+    code?: number;
+    data?: string;
+    message?: string;
+  };
+
   type BaseResponseUser = {
     code?: number;
     data?: User;
+    message?: string;
+  };
+
+  type BaseResponseUserDevKeyVO = {
+    code?: number;
+    data?: UserDevKeyVO;
     message?: string;
   };
 
@@ -386,9 +398,15 @@ declare namespace API {
     total?: number;
   };
 
+  type sendEmailUsingGETParams = {
+    /** email */
+    email?: string;
+  };
+
   type User = {
     accessKey?: string;
     createTime?: string;
+    email?: string;
     gender?: number;
     id?: number;
     isDelete?: number;
@@ -408,6 +426,11 @@ declare namespace API {
     userName?: string;
     userPassword?: string;
     userRole?: string;
+  };
+
+  type UserDevKeyVO = {
+    accessKey?: string;
+    secretKey?: string;
   };
 
   type UserInterfaceInfo = {
@@ -443,7 +466,8 @@ declare namespace API {
 
   type UserRegisterRequest = {
     checkPassword?: string;
-    userAccount?: string;
+    code?: string;
+    email?: string;
     userPassword?: string;
   };
 

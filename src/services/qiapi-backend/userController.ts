@@ -29,6 +29,29 @@ export async function deleteUserUsingPost(
   });
 }
 
+/** sendEmail GET /api/user/email */
+export async function sendEmailUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.sendEmailUsingGETParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponsestring>('/api/user/email', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
+/** genKey POST /api/user/gen/key */
+export async function genKeyUsingPost(options?: { [key: string]: any }) {
+  return request<API.BaseResponseUserDevKeyVO>('/api/user/gen/key', {
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
 /** getUserById GET /api/user/get */
 export async function getUserByIdUsingGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
@@ -47,6 +70,14 @@ export async function getUserByIdUsingGet(
 /** getLoginUser GET /api/user/get/login */
 export async function getLoginUserUsingGet(options?: { [key: string]: any }) {
   return request<API.BaseResponseUserVO>('/api/user/get/login', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+/** getKey GET /api/user/key */
+export async function getKeyUsingGet(options?: { [key: string]: any }) {
+  return request<API.BaseResponseUserDevKeyVO>('/api/user/key', {
     method: 'GET',
     ...(options || {}),
   });
