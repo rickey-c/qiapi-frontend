@@ -447,9 +447,9 @@ declare namespace API {
 
   type UserInterfaceInfoAddRequest = {
     interfaceInfoId?: number;
+    invokeCount?: number;
     leftNum?: number;
     totalNum?: number;
-    userId?: number;
   };
 
   type UserInterfaceInfoUpdateRequest = {
@@ -485,11 +485,11 @@ declare namespace API {
     createTime?: string;
     gender?: number;
     id?: number;
+    secretKey?: string;
     updateTime?: string;
     userAccount?: string;
     userAvatar?: string;
     userName?: string;
-    userRole?: string;
   };
 
   type View = {

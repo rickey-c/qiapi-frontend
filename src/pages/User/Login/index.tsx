@@ -73,7 +73,7 @@ const Login: React.FC = () => {
           actions={[
             '其他登录方式 :',
             <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
-            
+
             <a
               key="register"
               onClick={() => {
@@ -129,7 +129,7 @@ const Login: React.FC = () => {
                   size: 'large',
                   prefix: <LockOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder={'密码: ant.design'}
+                placeholder={'密码: rickey-qiapi.cn'}
                 rules={[
                   {
                     required: true,

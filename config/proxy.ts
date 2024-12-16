@@ -10,22 +10,33 @@
  * @doc https://umijs.org/docs/guides/proxy
  */
 export default {
-  dev: {},
+  dev: {
+    '/api/': {
+      target: 'http://124.222.215.143:8090',
+      changeOrigin: true,
+      pathRewrite: { '^': '' },
+    },
+  },
   /**
    * @name 详细的代理配置
    * @doc https://github.com/chimurai/http-proxy-middleware
    */
   test: {
     // localhost:8000/api/** -> https://preview.pro.ant.design/api/**
+    // '/api/': {
+    //   target: 'https://proapi.azurewebsites.net',
+    //   changeOrigin: true,
+    //   pathRewrite: { '^': '' },
+    // },
     '/api/': {
-      target: 'https://proapi.azurewebsites.net',
+      target: 'http://124.222.215.143:8090',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
   },
   pre: {
     '/api/': {
-      target: 'your pre url',
+      target: 'http://124.222.215.143:8090',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },

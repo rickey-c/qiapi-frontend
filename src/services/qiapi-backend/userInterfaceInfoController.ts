@@ -17,6 +17,21 @@ export async function addUserInterfaceInfoUsingPost(
   });
 }
 
+/** applyForApiCallIncrease POST /api/userInterfaceInfo/add/calls */
+export async function applyForApiCallIncreaseUsingPost(
+  body: API.UserInterfaceInfoAddRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponsestring>('/api/userInterfaceInfo/add/calls', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** deleteUserInterfaceInfo POST /api/userInterfaceInfo/delete */
 export async function deleteUserInterfaceInfoUsingPost(
   body: API.DeleteRequest,

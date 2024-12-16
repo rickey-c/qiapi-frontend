@@ -158,6 +158,7 @@ const Index: React.FC = () => {
       <Card className={styles.card}>
         {data ? (
           <Descriptions title={data.name} column={1} extra={<Button type="primary" onClick={handlePurchase}>购买接口</Button>}>
+            <Descriptions.Item label='接口ID'>{data.id}</Descriptions.Item>
             <Descriptions.Item label="接口状态">{data.status ? '开启' : '关闭'}</Descriptions.Item>
             <Descriptions.Item label="描述">{data.description}</Descriptions.Item>
             <Descriptions.Item label="请求地址">{data.url}</Descriptions.Item>
