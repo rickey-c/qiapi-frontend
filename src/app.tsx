@@ -1,6 +1,5 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
-import { LinkOutlined } from '@ant-design/icons';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';

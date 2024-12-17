@@ -15,8 +15,15 @@ interface ResponseStructure {
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const requestConfig: RequestConfig = {
-  baseURL: 'http://localhost:8090',
-  withCredentials: true,
+  baseURL: 'https://rickey-qiapi.cn',
+  withCredentials:true,
+  xsrfCookieName: 'rickey_login_token',  // CSRF token 存放的 cookie 名
+  xsrfHeaderName: 'X-XSRF-TOKEN',  // 请求头中 CSRF token 的名字
+  timeout: 5000,  // 请求超时
+  headers: {
+    'Content-Type': 'application/json',
+  },
+
   // 请求拦截器
   requestInterceptors: [
     (config: RequestOptions) => {
